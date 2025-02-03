@@ -1,3 +1,26 @@
+# Environment variables
+.env
+.env.*
+
+# VSCode
+.vscode/
+
+# iOS
+ios/Pods/
+ios/build/
+ios/*.xcworkspace/xcshareddata/
+ios/*.xcodeproj/xcshareddata/
+
+# Android
+android/app/release/
+android/captures/
+android/local.properties
+
+# Temp files
+*.log
+*.tmp
+*.temp
+
 # OSX
 #
 .DS_Store
