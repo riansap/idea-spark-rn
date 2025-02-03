@@ -21,14 +21,16 @@ A React Native application that helps generate creative ideas using AI technolog
 
 1. Clone the repository:
 
-````bash
+```bash
 git clone https://github.com/riansap/ideaspark.git
 cd ideaspark
+```
 
 2. Paste your Hugging Face API key in the `.env` file:
+
 ```env
 HUGGING_FACE_API_KEY=your_api_key_here
-````
+```
 
 3. Install dependencies:
 
