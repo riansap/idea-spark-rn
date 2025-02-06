@@ -1,7 +1,7 @@
 import React from 'react';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {MainTabParamList} from './types';
-import Icon from 'react-native-vector-icons/MaterialIcons';
+import {MaterialIcons} from '../theme/icons';
 
 // Placeholder screens - will be replaced with actual components
 const HomeScreen = () => null;
@@ -27,7 +27,7 @@ export const MainTabNavigator = () => {
         component={HomeScreen}
         options={{
           tabBarIcon: ({color, size}) => (
-            <Icon name="home" size={size} color={color} />
+            <MaterialIcons name="home" size={size} color={color} />
           ),
         }}
       />
@@ -37,7 +37,7 @@ export const MainTabNavigator = () => {
         options={{
           title: 'Create Task',
           tabBarIcon: ({color, size}) => (
-            <Icon name="add-circle" size={size} color={color} />
+            <MaterialIcons name="add-circle" size={size} color={color} />
           ),
         }}
       />
@@ -46,7 +46,7 @@ export const MainTabNavigator = () => {
         component={ProfileScreen}
         options={{
           tabBarIcon: ({color, size}) => (
-            <Icon name="person" size={size} color={color} />
+            <MaterialIcons name="person" size={size} color={color} />
           ),
         }}
       />

@@ -1,26 +1,33 @@
 import React from 'react';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {TabNavigator} from './TabNavigator';
-import {AIGenerateScreen} from '../screens/AIGenerateScreen';
+import {SplashScreen, AIGenerateScreen} from '../screens';
+import {colors, fonts, fontSize} from '../theme';
+import {RootStackParamList} from './types';
 
-const Stack = createNativeStackNavigator();
+const Stack = createNativeStackNavigator<RootStackParamList>();
 
 export const StackNavigator = () => {
   return (
     <Stack.Navigator
       screenOptions={{
         headerStyle: {
-          backgroundColor: '#FFFFFF',
+          backgroundColor: colors.white,
         },
         headerTitleStyle: {
-          fontSize: 18,
-          fontWeight: '600',
-          color: '#000000',
+          fontSize: fontSize.lg,
+          fontFamily: fonts.SemiBold,
+          color: colors.textPrimary,
         },
         headerTitleAlign: 'center',
-        headerTintColor: '#007AFF',
+        headerTintColor: colors.primary,
         headerShadowVisible: false,
       }}>
+      <Stack.Screen
+        name="Splash"
+        component={SplashScreen}
+        options={{headerShown: false}}
+      />
       <Stack.Screen
         name="MainTabs"
         component={TabNavigator}
@@ -29,9 +36,7 @@ export const StackNavigator = () => {
       <Stack.Screen
         name="AIGenerate"
         component={AIGenerateScreen}
-        options={{
-          title: 'AI Chat',
-        }}
+        options={{headerShown: false}}
       />
     </Stack.Navigator>
   );

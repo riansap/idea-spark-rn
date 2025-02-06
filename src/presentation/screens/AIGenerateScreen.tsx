@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useLayoutEffect, useState} from 'react';
 import {
   View,
   Text,
@@ -12,8 +12,39 @@ import {
   Platform,
 } from 'react-native';
 import {generateText} from '../../infrastructure/services/HuggingFaceService';
+import {MaterialIcons} from '../theme/icons';
+import {colors, fonts, fontSize} from '../theme';
+import Responsive from '../../utils/responsive';
+import {StackNavigationProps} from '../navigation/types';
 
-export const AIGenerateScreen = () => {
+export const AIGenerateScreen = ({
+  navigation,
+}: StackNavigationProps<'AIGenerate'>) => {
+  useLayoutEffect(() => {
+    navigation.setOptions({
+      headerShown: true,
+      headerLeft: () => (
+        <TouchableOpacity onPress={() => navigation.goBack()}>
+          <MaterialIcons
+            name="arrow-back"
+            size={Responsive.fs(24)}
+            color={colors.textPrimary}
+          />
+        </TouchableOpacity>
+      ),
+      headerTitle: 'AI Generate',
+      headerStyle: {
+        backgroundColor: colors.white,
+      },
+      headerTitleStyle: {
+        fontFamily: fonts.SemiBold,
+        fontSize: fontSize.lg,
+        color: colors.textPrimary,
+      },
+      headerShadowVisible: false,
+    });
+  }, [navigation]);
+
   const [loading, setLoading] = useState(false);
   const [messages, setMessages] = useState<
     Array<{role: 'user' | 'assistant'; content: string}>
@@ -23,11 +54,6 @@ export const AIGenerateScreen = () => {
   const [language, setLanguage] = useState<'en' | 'id'>('en');
 
   const sendMessage = async () => {
-    if (!userInput.trim()) {
-      setError('Please enter your message');
-      return;
-    }
-
     setLoading(true);
     setError('');
     const newUserMessage = {role: 'user' as const, content: userInput};
@@ -68,39 +94,40 @@ export const AIGenerateScreen = () => {
       <KeyboardAvoidingView
         behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
         style={styles.keyboardAvoid}>
-        <ScrollView style={styles.scrollView}>
+        <View style={styles.languageSelector}>
+          <TouchableOpacity
+            style={[
+              styles.languageButton,
+              language === 'en' && styles.languageButtonActive,
+            ]}
+            onPress={() => setLanguage('en')}>
+            <Text
+              style={[
+                styles.languageButtonText,
+                language === 'en' && styles.languageButtonTextActive,
+              ]}>
+              English
+            </Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={[
+              styles.languageButton,
+              language === 'id' && styles.languageButtonActive,
+            ]}
+            onPress={() => setLanguage('id')}>
+            <Text
+              style={[
+                styles.languageButtonText,
+                language === 'id' && styles.languageButtonTextActive,
+              ]}>
+              Indonesia
+            </Text>
+          </TouchableOpacity>
+        </View>
+        <ScrollView
+          style={styles.scrollView}
+          contentContainerStyle={styles.scrollViewContent}>
           <View style={styles.content}>
-            <View style={styles.languageSelector}>
-              <TouchableOpacity
-                style={[
-                  styles.languageButton,
-                  language === 'en' && styles.languageButtonActive,
-                ]}
-                onPress={() => setLanguage('en')}>
-                <Text
-                  style={[
-                    styles.languageButtonText,
-                    language === 'en' && styles.languageButtonTextActive,
-                  ]}>
-                  English
-                </Text>
-              </TouchableOpacity>
-              <TouchableOpacity
-                style={[
-                  styles.languageButton,
-                  language === 'id' && styles.languageButtonActive,
-                ]}
-                onPress={() => setLanguage('id')}>
-                <Text
-                  style={[
-                    styles.languageButtonText,
-                    language === 'id' && styles.languageButtonTextActive,
-                  ]}>
-                  Indonesia
-                </Text>
-              </TouchableOpacity>
-            </View>
-
             <View style={styles.chatContainer}>
               {messages.map((message, index) => (
                 <View
@@ -122,49 +149,59 @@ export const AIGenerateScreen = () => {
                   </Text>
                 </View>
               ))}
+              {loading && (
+                <View style={styles.loaderContainer}>
+                  <ActivityIndicator color={colors.primary} />
+                </View>
+              )}
+              {error && (
+                <View style={styles.errorContainer}>
+                  <Text style={styles.error}>{error}</Text>
+                </View>
+              )}
             </View>
-
-            <View style={styles.inputContainer}>
-              <TextInput
-                style={styles.chatInput}
-                value={userInput}
-                onChangeText={setUserInput}
-                placeholder={
-                  language === 'en'
-                    ? 'Type your message...'
-                    : 'Ketik pesan Anda...'
-                }
-                placeholderTextColor="#666"
-                editable={!loading}
-                multiline
-              />
-              <TouchableOpacity
-                style={[styles.sendButton, loading && styles.buttonDisabled]}
-                onPress={sendMessage}
-                disabled={loading}>
-                <Text style={styles.sendButtonText}>
-                  {loading ? '...' : '→'}
-                </Text>
-              </TouchableOpacity>
-            </View>
-
-            {loading && (
-              <ActivityIndicator style={styles.loader} color="#007AFF" />
-            )}
-
-            {error && <Text style={styles.error}>{error}</Text>}
           </View>
         </ScrollView>
+
+        <View style={styles.inputWrapper}>
+          <View style={styles.inputContainer}>
+            <TextInput
+              style={styles.chatInput}
+              value={userInput}
+              onChangeText={setUserInput}
+              placeholder={
+                language === 'en'
+                  ? 'Type your message...'
+                  : 'Ketik pesan Anda...'
+              }
+              placeholderTextColor={colors.grey400}
+              editable={!loading}
+              multiline
+            />
+            <TouchableOpacity
+              style={[
+                styles.sendButton,
+                loading && styles.buttonDisabled,
+                !userInput.trim() && styles.buttonDisabled,
+              ]}
+              onPress={sendMessage}
+              disabled={loading || !userInput.trim()}>
+              <MaterialIcons
+                name={loading ? 'more-horiz' : 'send'}
+                size={Responsive.fs(20)}
+                color={!userInput.trim() ? colors.grey400 : colors.white}
+              />
+            </TouchableOpacity>
+          </View>
+        </View>
       </KeyboardAvoidingView>
     </SafeAreaView>
   );
 };
 
-// Add these new styles
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#FFFFFF',
   },
   keyboardAvoid: {
     flex: 1,
@@ -174,101 +211,139 @@ const styles = StyleSheet.create({
   },
   content: {
     flex: 1,
-    padding: 16,
+    padding: Responsive.spacing(4),
+    backgroundColor: colors.grey100,
   },
   languageSelector: {
     flexDirection: 'row',
-    marginBottom: 16,
+    paddingBottom: Responsive.spacing(10),
     justifyContent: 'center',
-    gap: 10,
+    gap: Responsive.spacing(10),
+    backgroundColor: colors.white,
   },
   languageButton: {
-    paddingHorizontal: 16,
-    paddingVertical: 8,
-    borderRadius: 20,
+    paddingHorizontal: Responsive.spacing(8),
+    paddingVertical: Responsive.spacing(6),
+    borderRadius: Responsive.radius(10),
     borderWidth: 1,
-    borderColor: '#007AFF',
+    borderColor: colors.primary,
   },
   languageButtonActive: {
-    backgroundColor: '#007AFF',
+    backgroundColor: colors.primary,
   },
   languageButtonText: {
-    color: '#007AFF',
-    fontSize: 14,
-    fontWeight: '600',
+    color: colors.primary,
+    fontSize: fontSize.sm,
+    fontFamily: fonts.SemiBold,
   },
   languageButtonTextActive: {
-    color: '#FFFFFF',
+    color: colors.white,
   },
   chatContainer: {
     flex: 1,
-    marginBottom: 16,
+    marginBottom: Responsive.spacing(4),
   },
   messageContainer: {
     maxWidth: '80%',
-    marginVertical: 8,
-    padding: 12,
-    borderRadius: 16,
+    marginVertical: Responsive.spacing(2),
+    padding: Responsive.spacing(3),
+    borderRadius: Responsive.radius(16),
   },
   userMessage: {
     alignSelf: 'flex-end',
-    backgroundColor: '#007AFF',
+    backgroundColor: colors.primary,
+    borderTopRightRadius: Responsive.radius(4),
+    padding: Responsive.spacing(8),
   },
   assistantMessage: {
     alignSelf: 'flex-start',
-    backgroundColor: '#f0f0f0',
+    backgroundColor: colors.grey300,
+    padding: Responsive.spacing(8),
   },
   messageText: {
-    fontSize: 16,
-    lineHeight: 22,
+    fontSize: fontSize.md,
+    lineHeight: Responsive.fs(22),
+    fontFamily: fonts.Medium,
   },
   userMessageText: {
-    color: '#fff',
+    color: colors.white,
   },
   assistantMessageText: {
-    color: '#333',
+    color: colors.textPrimary,
+  },
+  inputWrapper: {
+    position: 'absolute',
+    bottom: 0,
+    left: 0,
+    right: 0,
+    backgroundColor: colors.black,
+    paddingHorizontal: Responsive.spacing(6),
+    paddingVertical: Responsive.spacing(6),
   },
   inputContainer: {
     flexDirection: 'row',
     alignItems: 'center',
-    borderTopWidth: 1,
-    borderTopColor: '#eee',
-    paddingVertical: 8,
+    backgroundColor: colors.white,
+    borderRadius: Responsive.radius(22),
+    shadowColor: colors.black,
+    shadowOffset: {width: 0, height: -2},
+    shadowOpacity: 0.1,
+    shadowRadius: 3,
+    elevation: 3,
+    padding: Responsive.spacing(4),
   },
   chatInput: {
     flex: 1,
-    borderWidth: 1,
-    borderColor: '#ddd',
-    borderRadius: 20,
-    paddingHorizontal: 16,
-    paddingVertical: 8,
-    marginRight: 8,
-    fontSize: 16,
-    maxHeight: 100,
-    color: '#333',
+    borderWidth: 0,
+    backgroundColor: colors.white,
+    borderRadius: Responsive.radius(12),
+    paddingHorizontal: Responsive.spacing(4),
+    paddingVertical: Responsive.spacing(2),
+    marginHorizontal: Responsive.spacing(4),
+    fontSize: fontSize.md,
+    maxHeight: Responsive.h(12),
+    color: colors.textPrimary,
+    fontFamily: fonts.Regular,
   },
   sendButton: {
-    backgroundColor: '#007AFF',
-    width: 40,
-    height: 40,
-    borderRadius: 20,
+    backgroundColor: colors.primary,
+    width: Responsive.w(10),
+    height: Responsive.w(10),
+    borderRadius: Responsive.radius(20),
     justifyContent: 'center',
     alignItems: 'center',
   },
-  sendButtonText: {
-    color: '#fff',
-    fontSize: 20,
-    fontWeight: '600',
-  },
   buttonDisabled: {
-    opacity: 0.7,
+    backgroundColor: colors.grey200,
+  },
+  sendButtonText: {
+    color: colors.white,
+    fontSize: fontSize.lg,
+    fontFamily: fonts.SemiBold,
   },
   error: {
-    color: '#FF3B30',
-    marginVertical: 16,
+    color: colors.error,
+    marginVertical: Responsive.spacing(4),
     textAlign: 'center',
+    fontFamily: fonts.Regular,
+    fontSize: fontSize.sm,
   },
   loader: {
-    marginTop: 16,
+    marginTop: Responsive.spacing(4),
+  },
+  scrollViewContent: {
+    flexGrow: 1,
+    paddingBottom: Responsive.h(15), // Space for input container
+  },
+  loaderContainer: {
+    padding: Responsive.spacing(4),
+    alignItems: 'center',
+  },
+  errorContainer: {
+    padding: Responsive.spacing(4),
+    alignItems: 'center',
+    backgroundColor: colors.error + '10',
+    margin: Responsive.spacing(4),
+    borderRadius: Responsive.radius(12),
   },
 });

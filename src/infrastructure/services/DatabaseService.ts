@@ -23,9 +23,11 @@ const DATABASE = {
     size: 200000,
 };
 
-class DatabaseService {
+export class DatabaseService {
     private static instance: DatabaseService;
     private database: SQLite.SQLiteDatabase | null = null;
+    private initialized = false;
+    private initializationPromise: Promise<void> | null = null;
 
     private constructor() { }
 
@@ -37,13 +39,26 @@ class DatabaseService {
     }
 
     async initialize(): Promise<void> {
-        try {
-            this.database = await SQLite.openDatabase(DATABASE);
-            await this.createTables();
-        } catch (error) {
-            console.error('Database initialization error:', error);
-            throw new Error(`Failed to initialize database: ${error instanceof Error ? error.message : 'Unknown error'}`);
-        }
+        if (this.initialized) return;
+        if (this.initializationPromise) return this.initializationPromise;
+
+        this.initializationPromise = (async () => {
+            try {
+                this.database = await SQLite.openDatabase(DATABASE);
+                await this.createTables();
+                this.initialized = true;
+                console.log('Database initialized successfully');
+            } catch (error) {
+                this.initialized = false;
+                this.database = null;
+                console.error('Database initialization error:', error);
+                throw error;
+            } finally {
+                this.initializationPromise = null;
+            }
+        })();
+
+        return this.initializationPromise;
     }
 
     private async createTables(): Promise<void> {
@@ -103,8 +118,14 @@ class DatabaseService {
     }
 
     async getAllTasks(filters?: { category?: string; status?: 'new' | 'done'; includeDeleted?: boolean }): Promise<Task[]> {
-        if (!this.database) throw new Error('Database not initialized');
-
+        if (!this.initialized) {
+            await this.initialize();
+        }
+        
+        if (!this.database) {
+            throw new Error('Database failed to initialize');
+        }
+    
         let query = 'SELECT * FROM tasks WHERE 1=1';
         const params: any[] = [];
 
