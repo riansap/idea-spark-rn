@@ -8,9 +8,9 @@ import {
   SafeAreaView,
   Image,
 } from 'react-native';
-import {MaterialIcons} from '../theme/icons';
-import {colors, fonts, fontSize} from '../theme';
-import Responsive from '../../utils/responsive';
+import {MaterialIcons} from '../config/theme/icons';
+import {colors, fonts, fontSize} from '../config/theme';
+import Responsive from '../utils/responsive';
 import {TabNavigationProps} from '../navigation/types';
 
 const MenuItem = ({
@@ -23,7 +23,11 @@ const MenuItem = ({
   onPress: () => void;
 }) => (
   <TouchableOpacity style={styles.menuItem} onPress={onPress}>
-    <MaterialIcons name={icon} size={Responsive.fs(24)} color={colors.grey600} />
+    <MaterialIcons
+      name={icon}
+      size={Responsive.fs(24)}
+      color={colors.grey600}
+    />
     <Text style={styles.menuItemText}>{title}</Text>
     <MaterialIcons
       name="chevron-right"
@@ -94,11 +98,7 @@ export const ProfileScreen = ({navigation}: TabNavigationProps<'Profile'>) => {
         <View style={styles.section}>
           <Text style={styles.sectionTitle}>Preferences</Text>
           <MenuItem icon="language" title="Language" onPress={() => {}} />
-          <MenuItem
-            icon="brightness-6"
-            title="Theme"
-            onPress={() => {}}
-          />
+          <MenuItem icon="brightness-6" title="Theme" onPress={() => {}} />
         </View>
 
         <TouchableOpacity style={styles.logoutButton}>

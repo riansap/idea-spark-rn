@@ -1,13 +1,13 @@
 import React, {useEffect} from 'react';
 import {GestureHandlerRootView} from 'react-native-gesture-handler';
 import {NavigationContainer} from '@react-navigation/native';
-import {StackNavigator} from './src/presentation/navigation/StackNavigator';
-import {database} from './src/infrastructure/services/DatabaseService';
+import {StackNavigator} from './src/navigation/StackNavigator';
+import {database} from './src/services/DatabaseService';
 import {BottomSheetModalProvider} from '@gorhom/bottom-sheet';
-import {LoadingOverlay} from './src/presentation/components/atoms/LoadingOverlay';
-import {useLoadingStore} from './src/presentation/stores/loadingStore';
+import {LoadingOverlay} from './src/components/atoms/LoadingOverlay';
+import {useLoadingStore} from './src/state/loadingStore';
 import {StatusBar} from 'react-native';
-import {colors} from './src/presentation/theme';
+import {colors} from './src/config/theme/colors';
 
 function App(): React.JSX.Element {
   const {showLoading, hideLoading} = useLoadingStore();

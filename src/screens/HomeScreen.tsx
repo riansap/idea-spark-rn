@@ -8,12 +8,12 @@ import {
   FlatList,
   Image,
 } from 'react-native';
-import {MaterialIcons} from '../theme/icons';
-import {database} from '../../infrastructure/services/DatabaseService';
-import {Task} from '../../domain/models/Task';
-import {useLoadingStore} from '../stores/loadingStore';
-import {colors, fonts, fontSize} from '../theme';
-import Responsive from '../../utils/responsive';
+import {MaterialIcons} from '../config/theme/icons';
+import {database} from '../services/DatabaseService';
+import {Task} from '../types/Task';
+import {useLoadingStore} from '../state/loadingStore';
+import {colors, fonts, fontSize} from '../config/theme';
+import Responsive from '../utils/responsive';
 import {TabNavigationProps} from '../navigation/types';
 import {Images} from '../assets/images';
 import {Button} from '../components/atoms';
@@ -37,8 +37,8 @@ export const HomeScreen = ({navigation}: TabNavigationProps<'Home'>) => {
         <Image
           source={Images.LogoOutline}
           style={{
-            width: Responsive.w(15),
-            height: Responsive.w(15),
+            width: Responsive.w(10),
+            height: Responsive.w(10),
             marginLeft: Responsive.spacing(2),
           }}
         />

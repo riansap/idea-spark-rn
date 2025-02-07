@@ -1,7 +1,7 @@
 import React from 'react';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {MainTabParamList} from './types';
-import {MaterialIcons} from '../theme/icons';
+import {MaterialIcons} from '../config/theme/icons';
 
 // Placeholder screens - will be replaced with actual components
 const HomeScreen = () => null;

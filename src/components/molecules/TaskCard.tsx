@@ -1,9 +1,9 @@
 import React from 'react';
 import {View, Text, StyleSheet, TouchableOpacity} from 'react-native';
-import {MaterialIcons} from '../../theme/icons';
-import {Task} from '../../../domain/models/Task';
-import {colors, fonts, fontSize} from '../../theme';
-import Responsive from '../../../utils/responsive';
+import {MaterialIcons} from '../../config/theme/icons';
+import {Task} from '../../types/Task';
+import {colors, fonts, fontSize} from '../../config/theme';
+import Responsive from '../../utils/responsive';
 
 interface TaskCardProps {
   task: Task;

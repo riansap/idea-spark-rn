@@ -6,8 +6,8 @@ import {
   ViewStyle,
   TextStyle,
 } from 'react-native';
-import {colors, fonts, fontSize} from '../../theme';
-import Responsive from '../../../utils/responsive';
+import {colors, fonts, fontSize} from '../../config/theme';
+import Responsive from '../../utils/responsive';
 
 interface ButtonProps {
   label: string;

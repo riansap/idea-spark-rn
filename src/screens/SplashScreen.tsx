@@ -10,8 +10,8 @@ import Animated, {
   withTiming,
   Easing,
 } from 'react-native-reanimated';
-import Responsive from '../../utils/responsive';
-import {colors, fonts, fontSize} from '../theme';
+import Responsive from '../utils/responsive';
+import {colors, fonts, fontSize} from '../config/theme';
 import {Images} from '../assets/images';
 
 export const SplashScreen = () => {

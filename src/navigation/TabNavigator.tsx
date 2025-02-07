@@ -1,10 +1,10 @@
 import React from 'react';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
-import {MaterialIcons} from '../theme/icons/index';
+import {MaterialIcons} from '../config/theme/icons';
 import {HomeScreen, CreateTaskScreen, ProfileScreen} from '../screens';
 import {StyleSheet, View} from 'react-native';
-import {colors, fonts, fontSize} from '../theme';
-import Responsive from '../../utils/responsive';
+import {colors, fonts, fontSize} from '../config/theme';
+import Responsive from '../utils/responsive';
 import {MainTabParamList} from './types';
 
 const Tab = createBottomTabNavigator<MainTabParamList>();

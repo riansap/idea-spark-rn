@@ -2,7 +2,7 @@ import React from 'react';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {TabNavigator} from './TabNavigator';
 import {SplashScreen, AIGenerateScreen} from '../screens';
-import {colors, fonts, fontSize} from '../theme';
+import {colors, fonts, fontSize} from '../config/theme';
 import {RootStackParamList} from './types';
 
 const Stack = createNativeStackNavigator<RootStackParamList>();

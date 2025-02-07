@@ -9,11 +9,11 @@ import {
   SafeAreaView,
   Text,
 } from 'react-native';
-import {database} from '../../infrastructure/services/DatabaseService';
+import {database} from '../services/DatabaseService';
 import {GlobalBottomSheet, GlobalBottomSheetRef} from '../components/organisms';
 import {Button, TextInput} from '../components/atoms';
-import {colors, fonts, fontSize} from '../theme';
-import Responsive from '../../utils/responsive';
+import {colors, fonts, fontSize} from '../config/theme';
+import Responsive from '../utils/responsive';
 import {TabNavigationProps} from '../navigation/types';
 
 export const CreateTaskScreen = ({

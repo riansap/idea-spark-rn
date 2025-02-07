@@ -11,10 +11,10 @@ import {
   KeyboardAvoidingView,
   Platform,
 } from 'react-native';
-import {generateText} from '../../infrastructure/services/HuggingFaceService';
-import {MaterialIcons} from '../theme/icons';
-import {colors, fonts, fontSize} from '../theme';
-import Responsive from '../../utils/responsive';
+import {generateText} from '../services/HuggingFaceService';
+import {MaterialIcons} from '../config/theme/icons';
+import {colors, fonts, fontSize} from '../config/theme';
+import Responsive from '../utils/responsive';
 import {StackNavigationProps} from '../navigation/types';
 
 export const AIGenerateScreen = ({

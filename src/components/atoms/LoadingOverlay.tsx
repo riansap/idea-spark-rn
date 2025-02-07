@@ -7,9 +7,9 @@ import {
   Modal,
   StatusBar,
 } from 'react-native';
-import {useLoadingStore} from '../../stores/loadingStore';
-import {colors, fonts, fontSize} from '../../theme';
-import Responsive from '../../../utils/responsive';
+import {useLoadingStore} from '../../state/loadingStore';
+import {colors, fonts, fontSize} from '../../config/theme';
+import Responsive from '../../utils/responsive';
 
 export const LoadingOverlay: React.FC = () => {
   const {isVisible, message} = useLoadingStore();

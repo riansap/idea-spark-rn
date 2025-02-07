@@ -6,8 +6,8 @@ import {
   View,
   Text,
 } from 'react-native';
-import {colors, fonts, fontSize} from '../../theme';
-import Responsive from '../../../utils/responsive';
+import {colors, fonts, fontSize} from '../../config/theme';
+import Responsive from '../../utils/responsive';
 
 interface TextInputProps extends RNTextInputProps {
   label?: string;

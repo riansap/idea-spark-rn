@@ -1,8 +1,8 @@
 import React from 'react';
 import {StyleSheet} from 'react-native';
-import {Ionicons} from '../../theme/icons';
-import {colors} from '../../theme';
-import Responsive from '../../../utils/responsive';
+import {Ionicons} from '../../config/theme/icons';
+import {colors} from '../../config/theme';
+import Responsive from '../../utils/responsive';
 
 type IconType = 'success' | 'error' | 'info' | 'warning';
 

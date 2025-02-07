@@ -2,8 +2,8 @@ import React, {forwardRef, useImperativeHandle, useRef, useMemo} from 'react';
 import {View, Text, StyleSheet} from 'react-native';
 import {BottomSheetModal, BottomSheetView} from '@gorhom/bottom-sheet';
 import {Button, IconContext} from '../atoms';
-import {colors, fonts, fontSize} from '../../theme';
-import Responsive from '../../../utils/responsive';
+import {colors, fonts, fontSize} from '../../config/theme';
+import Responsive from '../../utils/responsive';
 
 type BottomSheetType = 'success' | 'error' | 'info' | 'warning';
 
