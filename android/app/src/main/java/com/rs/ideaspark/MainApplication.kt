@@ -1,4 +1,4 @@
-package com.ideaspark
+package com.rs.ideaspark
 
 import android.app.Application
 import com.facebook.react.PackageList

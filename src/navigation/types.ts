@@ -3,9 +3,13 @@ import { BottomTabNavigationProp } from '@react-navigation/bottom-tabs';
 import { RouteProp } from '@react-navigation/native';
 
 export type RootStackParamList = {
+    Welcome: undefined;
     Splash: undefined;
+    SignIn: undefined;
+    SignUp: undefined;
     MainTabs: undefined;
     AIGenerate: undefined;
+
 };
 
 export type MainTabParamList = {

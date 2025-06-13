@@ -1,15 +1,12 @@
 export const Routes = {
-    Splash: {
-        name: 'Splash',
+    Stack: {
+        name: 'Stack',
         screens: {
+            Welcome: 'Welcome',
             Splash: 'Splash',
-        },
-    },
-    Auth: {
-        name: 'Auth',
-        screens: {
             SignIn: 'SignIn',
             SignUp: 'SignUp',
+            AiGenerate: 'AiGenerate',
         },
     },
     MainTabs: {

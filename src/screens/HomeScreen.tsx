@@ -7,6 +7,8 @@ import {
   SafeAreaView,
   FlatList,
   Image,
+  BackHandler,
+  Alert,
 } from 'react-native';
 import {MaterialIcons} from '../config/theme/icons';
 import {database} from '../services/DatabaseService';
@@ -18,12 +20,13 @@ import {TabNavigationProps} from '../navigation/types';
 import {Images} from '../assets/images';
 import {Button} from '../components/atoms';
 import {TaskCard} from '../components/molecules';
+import {useFocusEffect} from '@react-navigation/native';
 
 export const HomeScreen = ({navigation}: TabNavigationProps<'Home'>) => {
   useLayoutEffect(() => {
     navigation.setOptions({
       headerShown: true,
-      headerTitle: 'IdeaSpark',
+      headerTitle: 'Idea Spark',
       headerTitleAlign: 'left',
       headerStyle: {
         backgroundColor: colors.white,
@@ -39,13 +42,46 @@ export const HomeScreen = ({navigation}: TabNavigationProps<'Home'>) => {
           style={{
             width: Responsive.w(10),
             height: Responsive.w(10),
-            marginLeft: Responsive.spacing(2),
+            marginLeft: Responsive.spacing(10),
           }}
         />
       ),
       headerShadowVisible: false,
     });
   }, [navigation]);
+
+  useFocusEffect(
+    React.useCallback(() => {
+      const onBackPress = () => {
+        Alert.alert(
+          'Exit App',
+          'Are you sure you want to exit?',
+          [
+            {
+              text: 'Cancel',
+              style: 'cancel',
+            },
+            {
+              text: 'Exit',
+              style: 'destructive',
+              onPress: () => BackHandler.exitApp(),
+            },
+          ],
+          {
+            cancelable: false,
+          },
+        );
+        return true;
+      };
+
+      const subscription = BackHandler.addEventListener(
+        'hardwareBackPress',
+        onBackPress,
+      );
+
+      return () => subscription.remove();
+    }, []),
+  );
 
   const {showLoading, hideLoading} = useLoadingStore();
   const [tasks, setTasks] = useState<Task[]>([]);

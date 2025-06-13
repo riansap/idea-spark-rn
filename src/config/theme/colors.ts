@@ -3,6 +3,7 @@ export const colors = {
     primary: '#29bbed',
     secondary: '#5856D6',
     // Greys
+    grey50: '#FAFAFA',
     grey100: '#F5F5F5',
     grey200: '#EEEEEE',
     grey300: '#E0E0E0',
@@ -12,7 +13,7 @@ export const colors = {
     grey700: '#616161',
     grey800: '#424242',
     // Text Colors
-    textPrimary: '#000000',
+    textPrimary: '#1A1A1A',
     textSecondary: '#666666',
     textTertiary: '#8E8E93',
     // Status Colors

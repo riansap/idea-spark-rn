@@ -25,7 +25,14 @@ export const TaskCard: React.FC<TaskCardProps> = ({task, onPress}) => {
             styles.status,
             task.status === 'done' ? styles.statusDone : styles.statusNew,
           ]}>
-          <Text style={styles.statusText} numberOfLines={1}>
+          <Text
+            style={[
+              styles.statusText,
+              task.status === 'done'
+                ? styles.statusTextDone
+                : styles.statusTextNew,
+            ]}
+            numberOfLines={1}>
             {task.status}
           </Text>
         </View>
@@ -69,7 +76,7 @@ const styles = StyleSheet.create({
     shadowOffset: {width: 0, height: 1},
     shadowOpacity: 0.22,
     shadowRadius: 5,
-    elevation: 6,
+    elevation: 3,
   },
   header: {
     flexDirection: 'row',
@@ -100,6 +107,12 @@ const styles = StyleSheet.create({
     fontFamily: fonts.Medium,
     color: colors.primary,
     textTransform: 'capitalize',
+  },
+  statusTextNew: {
+    color: colors.primary,
+  },
+  statusTextDone: {
+    color: colors.success,
   },
   description: {
     fontSize: fontSize.sm,

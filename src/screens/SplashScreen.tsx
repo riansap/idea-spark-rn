@@ -1,5 +1,5 @@
 import React, {useEffect} from 'react';
-import {View, StyleSheet, Image} from 'react-native';
+import {StyleSheet, Image, SafeAreaView} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import Animated, {
@@ -13,9 +13,12 @@ import Animated, {
 import Responsive from '../utils/responsive';
 import {colors, fonts, fontSize} from '../config/theme';
 import {Images} from '../assets/images';
+import {database} from '../services/DatabaseService';
+import {useLoadingStore} from '../state/loadingStore';
 
 export const SplashScreen = () => {
   const navigation = useNavigation<NativeStackNavigationProp<any>>();
+  const {showLoading, hideLoading} = useLoadingStore();
   const scale = useSharedValue(0);
   const opacity = useSharedValue(0);
   const translateY = useSharedValue(50);
@@ -44,18 +47,23 @@ export const SplashScreen = () => {
 
     const initializeApp = async () => {
       try {
+        await database.initialize();
         await new Promise(resolve => setTimeout(resolve, 2500));
+
         navigation.reset({
           index: 0,
-          routes: [{name: 'MainTabs'}],
+          routes: [{name: 'Welcome'}],
         });
       } catch (error) {
         console.error('Initialization failed:', error);
+        showLoading('Initialization database failed.');
+      } finally {
+        hideLoading();
       }
     };
 
     initializeApp();
-  }, [navigation, scale, opacity, translateY]);
+  }, [navigation, scale, opacity, translateY, showLoading, hideLoading]);
 
   const animatedStyle = useAnimatedStyle(() => ({
     transform: [{scale: scale.value}, {translateY: translateY.value}],
@@ -63,11 +71,11 @@ export const SplashScreen = () => {
   }));
 
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container}>
       <Animated.View style={[animatedStyle, styles.logoContainer]}>
         <Image source={Images.Logo} style={styles.logo} resizeMode="contain" />
       </Animated.View>
-    </View>
+    </SafeAreaView>
   );
 };
 

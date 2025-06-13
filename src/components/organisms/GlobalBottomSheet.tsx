@@ -1,9 +1,11 @@
 import React, {forwardRef, useImperativeHandle, useRef, useMemo} from 'react';
-import {View, Text, StyleSheet} from 'react-native';
+import {View, Text, StyleSheet, TouchableWithoutFeedback} from 'react-native';
 import {BottomSheetModal, BottomSheetView} from '@gorhom/bottom-sheet';
 import {Button, IconContext} from '../atoms';
-import {colors, fonts, fontSize} from '../../config/theme';
+import {colors, textStyle} from '../../config/theme';
 import Responsive from '../../utils/responsive';
+import {TouchableOpacity} from 'react-native';
+import {MaterialCommunityIcons} from '../../config/theme/icons';
 
 type BottomSheetType = 'success' | 'error' | 'info' | 'warning';
 
@@ -44,16 +46,43 @@ export const GlobalBottomSheet = forwardRef<
       index={0}
       snapPoints={snapPoints}
       enablePanDownToClose
-      backgroundStyle={styles.bottomSheetBackground}
-      handleIndicatorStyle={styles.bottomSheetIndicator}>
+      backdropComponent={() => (
+        <TouchableWithoutFeedback
+          onPress={() => bottomSheetModalRef.current?.dismiss()}>
+          <View
+            style={[
+              StyleSheet.absoluteFill,
+              {
+                backgroundColor: 'rgba(0, 0, 0, 0.3)',
+              },
+            ]}
+          />
+        </TouchableWithoutFeedback>
+      )}
+      backgroundStyle={styles.sheetBackground}
+      handleIndicatorStyle={styles.indicator}>
       <BottomSheetView style={styles.content}>
-        <IconContext type={type} size={Responsive.fs(50)} />
-        <Text style={styles.title} numberOfLines={2} ellipsizeMode="tail">
-          {title}
-        </Text>
-        <Text style={styles.message} numberOfLines={3} ellipsizeMode="tail">
-          {message}
-        </Text>
+        <View style={styles.header}>
+          <Text style={styles.title} numberOfLines={2} ellipsizeMode="tail">
+            {title}
+          </Text>
+          <TouchableOpacity
+            style={styles.closeButton}
+            onPress={() => bottomSheetModalRef.current?.dismiss()}>
+            <MaterialCommunityIcons
+              name="close"
+              size={24}
+              color={colors.textSecondary}
+            />
+          </TouchableOpacity>
+        </View>
+
+        <View style={styles.body}>
+          <IconContext type={type} size={Responsive.fs(50)} />
+          <Text style={styles.message} numberOfLines={3} ellipsizeMode="tail">
+            {message}
+          </Text>
+        </View>
 
         <View style={styles.buttonContainer}>
           {primaryButton && (
@@ -81,37 +110,47 @@ export const GlobalBottomSheet = forwardRef<
 
 const styles = StyleSheet.create({
   content: {
-    padding: Responsive.spacing(20),
+    padding: Responsive.spacing(24),
+  },
+  header: {
+    flexDirection: 'row',
     alignItems: 'center',
-    flex: 1,
+    justifyContent: 'center',
+    position: 'relative',
+    marginBottom: Responsive.spacing(16),
   },
-  buttonContainer: {
-    width: '100%',
-    paddingBottom: Responsive.spacing(20),
+  closeButton: {
+    position: 'absolute',
+    right: 0,
+    padding: Responsive.spacing(4),
   },
-  button: {
-    marginBottom: Responsive.spacing(10),
+  body: {
+    alignItems: 'center',
+    gap: Responsive.spacing(16),
+    marginBottom: Responsive.spacing(24),
   },
   title: {
-    fontSize: fontSize.lg,
-    fontFamily: fonts.Bold,
+    ...textStyle.h3,
     color: colors.textPrimary,
-    marginBottom: Responsive.spacing(10),
     textAlign: 'center',
   },
   message: {
-    fontSize: fontSize.md,
-    fontFamily: fonts.Medium,
+    ...textStyle.body2,
     color: colors.textSecondary,
     textAlign: 'center',
-    marginBottom: Responsive.spacing(30),
   },
-  bottomSheetBackground: {
+  buttonContainer: {
+    width: '100%',
+  },
+  button: {
+    marginBottom: Responsive.spacing(8),
+  },
+  sheetBackground: {
     backgroundColor: colors.white,
     borderTopLeftRadius: Responsive.radius(20),
     borderTopRightRadius: Responsive.radius(20),
   },
-  bottomSheetIndicator: {
+  indicator: {
     backgroundColor: colors.grey400,
     width: Responsive.w(10),
   },

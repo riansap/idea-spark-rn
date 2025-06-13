@@ -4,6 +4,9 @@ import {TabNavigator} from './TabNavigator';
 import {SplashScreen, AIGenerateScreen} from '../screens';
 import {colors, fonts, fontSize} from '../config/theme';
 import {RootStackParamList} from './types';
+import {WelcomeScreen} from '../screens/WelcomeScreen';
+import {SignInScreen} from '../screens/SignInScreen';
+import {SignUpScreen} from '../screens/SignUpScreen';
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
@@ -26,6 +29,21 @@ export const StackNavigator = () => {
       <Stack.Screen
         name="Splash"
         component={SplashScreen}
+        options={{headerShown: false}}
+      />
+      <Stack.Screen
+        name="Welcome"
+        component={WelcomeScreen}
+        options={{headerShown: false}}
+      />
+      <Stack.Screen
+        name="SignIn"
+        component={SignInScreen}
+        options={{headerShown: false}}
+      />
+      <Stack.Screen
+        name="SignUp"
+        component={SignUpScreen}
         options={{headerShown: false}}
       />
       <Stack.Screen

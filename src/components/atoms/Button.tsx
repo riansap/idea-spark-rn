@@ -38,6 +38,7 @@ export const Button: React.FC<ButtonProps> = ({
         style,
       ]}
       onPress={onPress}
+      activeOpacity={0.7}
       disabled={disabled}>
       <Text
         style={[
@@ -57,6 +58,8 @@ const styles = StyleSheet.create({
   button: {
     backgroundColor: colors.primary,
     borderRadius: Responsive.radius(10),
+    borderWidth: 1,
+    borderColor: colors.primary,
     alignItems: 'center',
     justifyContent: 'center',
     width: '100%',
@@ -88,7 +91,7 @@ const styles = StyleSheet.create({
     fontSize: fontSize.lg,
   },
   secondaryButton: {
-    backgroundColor: colors.grey100,
+    backgroundColor: 'transparent',
     borderWidth: 1,
     borderColor: colors.primary,
   },
